@@ -32,5 +32,9 @@ public class Room {
 	{
 		occupant = null;
 	}
-	
+	public void currentRoom(Person x)
+	{
+		System.out.println("This is a plain room");
+	}
+
 }

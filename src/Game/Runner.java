@@ -2,45 +2,66 @@ package Game;
 
 import People.Person;
 import Rooms.Room;
-import Rooms.WinningRoom;
 
 import java.util.Scanner;
 
 public class Runner {
-	
 
 	private static boolean gameOn = true;
 	
 	public static void main(String[] args)
 	{
-		Room[][] building = new Room[5][5];
-		
-		//Fill the building with normal rooms
-		for (int x = 0; x<building.length; x++)
-		{
-			for (int y = 0; y < building[x].length; y++)
-			{
-				building[x][y] = new Room(x,y);
-			}
-		}
-		
-		//Create a random winning room.
-		int x = (int)(Math.random()*building.length);
-		int y = (int)(Math.random()*building.length);
-		building[x][y] = new WinningRoom(x, y);
+		System.out.println("Background info:\nYou were kidnapped by a bunch of thieves and you have no recollection of how it happened. They left you in a mansion!!!\n");
+		System.out.println("I'll be here to help and guide you. Dw bout who I am");
+		Scanner in = new Scanner(System.in);
+		Board layout = new Board(10,10);
+		Room[][] building = layout.generate();
+		layout.createTemplate();
+
 		 
 		 //Setup player 1 and the input scanner
-		Person player1 = new Person("FirstName", "FamilyName", 0,0);
+		System.out.println("First thing is first, What's your name?");
+		String firstName = in.nextLine();
+		System.out.println("Last name?");
+		String lastName = in.nextLine();
+		Person player1 = new Person(firstName, lastName, 0,0);
+		System.out.println("Well, good luck, " + firstName + " " + lastName + ". If you have need help, type help");
 		building[0][0].enterRoom(player1);
-		Scanner in = new Scanner(System.in);
 		while(gameOn)
 		{
-			System.out.println("Where would you like to move? (Choose N, S, E, W)");
+
+			System.out.println("Where would you like to move? (Choose W, S, A, D)");
 			String move = in.nextLine();
 			if(validMove(move, player1, building))
 			{
 				System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
-				
+
+			}
+			if(move.toLowerCase().equals("w") || move.toLowerCase().equals("a") || move.toLowerCase().equals("s") || move.toLowerCase().equals("d"))
+			{
+				String mapPopulate = "";
+				for (int i = 0; i < building.length; i++)
+				{
+					for (int j = 0; j < building.length; j++)
+					{
+						if ((i == player1.getxLoc() && j == player1.getyLoc()))
+						{
+							Board.mapCreate[i][j] = "!";
+						}
+					}
+				}
+				for(String[] row : Board.mapCreate){
+					for(String column: row){
+						mapPopulate += column;
+					}
+					mapPopulate += "\n";
+				}
+				System.out.println(mapPopulate);
+
+			}
+			if(move.toLowerCase().equals("help"))
+			{
+				help();
 			}
 			else {
 				System.out.println("Please choose a valid move.");
@@ -49,6 +70,12 @@ public class Runner {
 			
 		}
 		in.close();
+	}
+	public static void help()
+	{
+		System.out.println("To move: type w,a,s,d");
+		System.out.println("To see your current location: type map");
+		System.out.println("Your position is indicated by \'!\' and unexplored areas as \'?\'\n");
 	}
 
 	/**
@@ -62,7 +89,7 @@ public class Runner {
 	{
 		move = move.toLowerCase().trim();
 		switch (move) {
-			case "n":
+			case "w":
 				if (p.getxLoc() > 0)
 				{
 					map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
@@ -73,11 +100,11 @@ public class Runner {
 				{
 					return false;
 				}
-			case "e":
-				if (p.getyLoc()< map[p.getyLoc()].length -1)
+			case "a":
+				if (p.getyLoc() > 0)
 				{
 					map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-					map[p.getxLoc()][p.getyLoc() + 1].enterRoom(p);
+					map[p.getxLoc()][p.getyLoc()-1].enterRoom(p);
 					return true;
 				}
 				else
@@ -97,11 +124,11 @@ public class Runner {
 					return false;
 				}
 
-			case "w":
-				if (p.getyLoc() > 0)
+			case "d":
+				if (p.getyLoc()< map[p.getyLoc()].length -1)
 				{
 					map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-					map[p.getxLoc()][p.getyLoc()-1].enterRoom(p);
+					map[p.getxLoc()][p.getyLoc() + 1].enterRoom(p);
 					return true;
 				}
 				else
@@ -114,6 +141,7 @@ public class Runner {
 		}
 		return true;
 	}
+
 	public static void gameOff()
 	{
 		gameOn = false;
