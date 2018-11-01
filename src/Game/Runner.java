@@ -47,6 +47,7 @@ public class Runner {
 						if ((i == player1.getxLoc() && j == player1.getyLoc()))
 						{
 							Board.mapCreate[i][j] = "!";
+							Board.mapCreate[0][0] = "!";
 						}
 					}
 				}
