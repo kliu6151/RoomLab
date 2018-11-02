@@ -4,12 +4,14 @@ import People.Person;
 import Rooms.Room;
 import Rooms.WinningRoom;
 
+import java.util.Arrays;
+
 
 public class Board {
     static int row;
     static int col;
     public static String[][] mapCreate;
-    public static String mapWalls;
+    public static String[][] mapWalls;
 
 
     public Board(int row, int col)
@@ -39,8 +41,7 @@ public class Board {
     public static void createTemplate()
     {
         mapCreate = new String[row][col];
-        mapWalls = "";
-        int amountOfWalls = (int)((3 + Math.random()) * 5);
+        mapWalls = new String[row][col];
         for (int i = 0; i < mapCreate.length; i++)
         {
             for (int j = 0; j < mapCreate[i].length; j++)
@@ -48,25 +49,29 @@ public class Board {
                 mapCreate[i][j] = "?";
             }
         }
+        /*
+        Creates the walls
+         */
+        int amountOfWalls = (int)((3 + Math.random()) * 5);
+        for (int i = 0; i < mapWalls.length; i++)
+        {
+            for (int j = 0; j < mapWalls[i].length; j++)
+            {
+                mapWalls[i][j] = "U";
+            }
+        }
         for(int n = 0;n<=amountOfWalls;n++)
         {
             int randomMapWallsX = (int) (Math.random() * 10);
             int randomMapWallsY = (int) (Math.random() * 10);
-            while(randomMapWallsX == 0 && randomMapWallsY == 0)
+            while(randomMapWallsX == 0 && randomMapWallsY == 0 || (randomMapWallsY == 9 && randomMapWallsX == 8) || (randomMapWallsY == 8 && randomMapWallsX == 9))
             {
                 randomMapWallsX = (int) (Math.random() * 10);
                 randomMapWallsY = (int) (Math.random() * 10);
             }
-            while((randomMapWallsY == 9 && randomMapWallsX == 8) || (randomMapWallsY == 8 && randomMapWallsX == 9))
-            {
-                randomMapWallsX = (int) (Math.random() * 10);
-                randomMapWallsY = (int) (Math.random() * 10);
-            }
-            if(!mapCreate[randomMapWallsY][randomMapWallsX].equals("|"))
-            {
-                    mapCreate[randomMapWallsY][randomMapWallsX] = "|";
-            }
-            System.out.println(amountOfWalls);
+                mapWalls[randomMapWallsY][randomMapWallsX] = mapCreate[randomMapWallsY][randomMapWallsX];
+                mapWalls[randomMapWallsY][randomMapWallsX] = "|";
+                mapCreate[randomMapWallsY][randomMapWallsX] = "?";
         }
 
     }

@@ -30,15 +30,14 @@ public class Runner {
 		while(gameOn)
 		{
 
-			System.out.println("Where would you like to move? (Choose W, S, A, D)");
 			String move = in.nextLine();
 			if(validMove(move, player1, building))
 			{
-				System.out.println("Your coordinates: row = " + player1.getxLoc() + " col = " + player1.getyLoc());
-
+				System.out.println("---------------------------------------");
 			}
 			if(move.toLowerCase().equals("w") || move.toLowerCase().equals("a") || move.toLowerCase().equals("s") || move.toLowerCase().equals("d"))
 			{
+				String[][] Player1Location = new String[][]{};
 				String mapPopulate = "";
 				for (int i = 0; i < building.length; i++)
 				{
@@ -64,9 +63,7 @@ public class Runner {
 			{
 				help();
 			}
-			else {
-				System.out.println("Please choose a valid move.");
-			}
+
 			
 			
 		}
@@ -75,8 +72,7 @@ public class Runner {
 	public static void help()
 	{
 		System.out.println("To move: type w,a,s,d");
-		System.out.println("To see your current location: type map");
-		System.out.println("Your position is indicated by \'!\' and unexplored areas as \'?\'\n");
+		System.out.println("SYMBOLS\n--------\nYour position: \"!\"\nUnexplored areas: \"?\"\nWalls: \"|\"");
 	}
 
 	/**
@@ -93,8 +89,24 @@ public class Runner {
 			case "w":
 				if (p.getxLoc() > 0)
 				{
-					map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-					map[p.getxLoc()-1][p.getyLoc()].enterRoom(p);
+					if (Board.mapWalls[p.getxLoc() - 1][p.getyLoc()].equals("|"))
+					{
+						System.out.println("Ouch! that must've hurt");
+						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+						map[p.getxLoc()][p.getyLoc()].enterRoom(p);
+						Board.mapCreate[p.getxLoc() - 1][p.getyLoc()] = "|";
+					}
+					else if(Board.mapCreate[p.getxLoc() - 1][p.getyLoc()].equals("?"))
+					{
+						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+						map[p.getxLoc() - 1][p.getyLoc()].enterRoom(p);
+
+					}
+					else if(Board.mapCreate[p.getxLoc() - 1][p.getyLoc()].equals("!"))
+					{
+						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+						map[p.getxLoc() - 1][p.getyLoc()].enterRoom(p);
+					}
 					return true;
 				}
 				else
@@ -104,8 +116,23 @@ public class Runner {
 			case "a":
 				if (p.getyLoc() > 0)
 				{
-					map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-					map[p.getxLoc()][p.getyLoc()-1].enterRoom(p);
+					if(Board.mapWalls[p.getxLoc()][p.getyLoc() - 1].equals("|"))
+					{
+						System.out.println("Ouch! that must've hurt");
+						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+						map[p.getxLoc()][p.getyLoc()].enterRoom(p);
+						Board.mapCreate[p.getxLoc()][p.getyLoc() - 1] = "|";
+					}
+					else if(Board.mapCreate[p.getxLoc()][p.getyLoc() - 1].equals("?"))
+					{
+						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+						map[p.getxLoc()][p.getyLoc() - 1].enterRoom(p);
+					}
+					else if(Board.mapCreate[p.getxLoc()][p.getyLoc() - 1].equals("!"))
+					{
+						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+						map[p.getxLoc()][p.getyLoc() - 1].enterRoom(p);
+					}
 					return true;
 				}
 				else
@@ -116,8 +143,23 @@ public class Runner {
 			case "s":
 				if (p.getxLoc() < map.length - 1)
 				{
-					map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-					map[p.getxLoc()+1][p.getyLoc()].enterRoom(p);
+					if(Board.mapWalls[p.getxLoc() + 1][p.getyLoc()].equals("|"))
+					{
+						System.out.println("Ouch! that must've hurt");
+						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+						map[p.getxLoc()][p.getyLoc()].enterRoom(p);
+						Board.mapCreate[p.getxLoc() + 1][p.getyLoc()] = "|";
+					}
+					else if(Board.mapCreate[p.getxLoc() + 1][p.getyLoc()].equals("?"))
+					{
+						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+						map[p.getxLoc() + 1][p.getyLoc()].enterRoom(p);
+					}
+					else if(Board.mapCreate[p.getxLoc() + 1][p.getyLoc()].equals("!"))
+					{
+						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+						map[p.getxLoc() + 1][p.getyLoc()].enterRoom(p);
+					}
 					return true;
 				}
 				else
@@ -128,8 +170,23 @@ public class Runner {
 			case "d":
 				if (p.getyLoc()< map[p.getyLoc()].length -1)
 				{
-					map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-					map[p.getxLoc()][p.getyLoc() + 1].enterRoom(p);
+					if(Board.mapWalls[p.getxLoc()][p.getyLoc() + 1].equals("|"))
+					{
+						System.out.println("Ouch! that must've hurt");
+						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+						map[p.getxLoc()][p.getyLoc()].enterRoom(p);
+						Board.mapCreate[p.getxLoc()][p.getyLoc() + 1] = "|";
+					}
+					else if(Board.mapCreate[p.getxLoc()][p.getyLoc() + 1].equals("?"))
+					{
+						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+						map[p.getxLoc()][p.getyLoc() + 1].enterRoom(p);
+					}
+					else if(Board.mapCreate[p.getxLoc()][p.getyLoc() + 1].equals("!"))
+					{
+						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+						map[p.getxLoc()][p.getyLoc() + 1].enterRoom(p);
+					}
 					return true;
 				}
 				else
