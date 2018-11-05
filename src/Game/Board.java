@@ -111,4 +111,3 @@ public class Board {
 
     }
 }
-//SET R = TRAPROOMS
