@@ -106,6 +106,7 @@ public class Board {
             {
                mapRooms[randomMapRoomsY][randomMapRoomsX] = new TrapRoom(randomMapRoomsY,randomMapRoomsX);
             }
+
             mapCreate[randomMapRoomsY][randomMapRoomsX] = "?";
         }
 

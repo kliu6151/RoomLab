@@ -18,7 +18,6 @@ public class Runner {
 		Board layout = new Board(10,10);
 		Room[][] building = layout.generate();
 		layout.createTemplate();
-		System.out.println(Arrays.deepToString(Board.mapWalls));
 
 		 
 		 //Setup player 1 and the input scanner
@@ -52,6 +51,7 @@ public class Runner {
 					}
 				}
 				Board.mapCreate[player1.getxLoc()][player1.getyLoc()] = "X";
+
 				for(String[] row : Board.mapCreate){
 					for(String column: row){
 						mapPopulate += column;
@@ -101,21 +101,28 @@ public class Runner {
 					}
 					else if (Board.mapRooms[p.getxLoc() - 1][p.getyLoc()].equals("R"))
 					{
-						System.out.println("hmmm");
+						System.out.println("Woah what's this");
 						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-						map[p.getxLoc()][p.getyLoc()].enterRoom(p);
+						map[p.getxLoc() - 1][p.getyLoc()].enterRoom(p);
 						Board.mapCreate[p.getxLoc()][p.getyLoc()] = "R";
 					}
 					else if(Board.mapCreate[p.getxLoc() - 1][p.getyLoc()].equals("?"))
 					{
 						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
 						map[p.getxLoc() - 1][p.getyLoc()].enterRoom(p);
-
+						if (Board.mapRooms[p.getxLoc() + 1][p.getyLoc()].equals("R"))
+						{
+							Board.mapCreate[p.getxLoc() + 1][p.getyLoc()] = "R";
+						}
 					}
 					else if(Board.mapCreate[p.getxLoc() - 1][p.getyLoc()].equals("-"))
 					{
 						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
 						map[p.getxLoc() - 1][p.getyLoc()].enterRoom(p);
+						if (Board.mapRooms[p.getxLoc() + 1][p.getyLoc()].equals("R"))
+						{
+							Board.mapCreate[p.getxLoc() + 1][p.getyLoc()] = "R";
+						}
 					}
 					return true;
 				}
@@ -135,20 +142,28 @@ public class Runner {
 					}
 					else if(Board.mapRooms[p.getxLoc()][p.getyLoc() - 1].equals("R"))
 					{
-						System.out.println("hmm");
+						System.out.println("Woah what's this");
 						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-						map[p.getxLoc()][p.getyLoc()].enterRoom(p);
+						map[p.getxLoc()][p.getyLoc() - 1].enterRoom(p);
 						Board.mapCreate[p.getxLoc()][p.getyLoc()] = "R";
 					}
 					else if(Board.mapCreate[p.getxLoc()][p.getyLoc() - 1].equals("?"))
 					{
 						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
 						map[p.getxLoc()][p.getyLoc() - 1].enterRoom(p);
+						if (Board.mapRooms[p.getxLoc()][p.getyLoc() + 1].equals("R"))
+						{
+							Board.mapCreate[p.getxLoc()][p.getyLoc() + 1] = "R";
+						}
 					}
 					else if(Board.mapCreate[p.getxLoc()][p.getyLoc() - 1].equals("-"))
 					{
 						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
 						map[p.getxLoc()][p.getyLoc() - 1].enterRoom(p);
+						if (Board.mapRooms[p.getxLoc()][p.getyLoc() + 1].equals("R"))
+						{
+							Board.mapCreate[p.getxLoc()][p.getyLoc() + 1] = "R";
+						}
 					}
 					return true;
 				}
@@ -169,20 +184,29 @@ public class Runner {
 					}
 					else if (Board.mapRooms[p.getxLoc() + 1][p.getyLoc()].equals("R"))
 					{
-						System.out.println("hmm");
+						System.out.println("Woah what's this");
 						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-						map[p.getxLoc()][p.getyLoc()].enterRoom(p);
+						map[p.getxLoc() + 1][p.getyLoc()].enterRoom(p);
 						Board.mapCreate[p.getxLoc()][p.getyLoc()] = "R";
+
 					}
 					else if(Board.mapCreate[p.getxLoc() + 1][p.getyLoc()].equals("?"))
 					{
 						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
 						map[p.getxLoc() + 1][p.getyLoc()].enterRoom(p);
+						if (Board.mapRooms[p.getxLoc() - 1][p.getyLoc()].equals("R"))
+						{
+							Board.mapCreate[p.getxLoc() - 1][p.getyLoc()] = "R";
+						}
 					}
 					else if(Board.mapCreate[p.getxLoc() + 1][p.getyLoc()].equals("-"))
 					{
 						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
 						map[p.getxLoc() + 1][p.getyLoc()].enterRoom(p);
+						if (Board.mapRooms[p.getxLoc() - 1][p.getyLoc()].equals("R"))
+						{
+							Board.mapCreate[p.getxLoc() - 1][p.getyLoc()] = "R";
+						}
 					}
 					return true;
 				}
@@ -198,25 +222,33 @@ public class Runner {
 					{
 						System.out.println("Ouch! that must've hurt");
 						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-						map[p.getxLoc()][p.getyLoc() + 1].enterRoom(p);
+						map[p.getxLoc()][p.getyLoc()].enterRoom(p);
 						Board.mapCreate[p.getxLoc()][p.getyLoc() + 1] = "|";
 					}
 					else if (Board.mapRooms[p.getxLoc()][p.getyLoc() + 1].equals("R"))
 					{
-						System.out.println("hmmm");
+						System.out.println("Woah what's this");
 						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-						map[p.getxLoc()][p.getyLoc()].enterRoom(p);
+						map[p.getxLoc()][p.getyLoc() + 1].enterRoom(p);
 						Board.mapCreate[p.getxLoc()][p.getyLoc()] = "R";
 					}
 					else if(Board.mapCreate[p.getxLoc()][p.getyLoc() + 1].equals("?"))
 					{
 						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
 						map[p.getxLoc()][p.getyLoc() + 1].enterRoom(p);
+						if (Board.mapRooms[p.getxLoc()][p.getyLoc() - 1].equals("R"))
+						{
+							Board.mapCreate[p.getxLoc()][p.getyLoc() - 1] = "R";
+						}
 					}
 					else if(Board.mapCreate[p.getxLoc()][p.getyLoc() + 1].equals("-"))
 					{
 						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
 						map[p.getxLoc()][p.getyLoc() + 1].enterRoom(p);
+						if (Board.mapRooms[p.getxLoc()][p.getyLoc() - 1].equals("R"))
+						{
+							Board.mapCreate[p.getxLoc()][p.getyLoc() - 1] = "R";
+						}
 					}
 					return true;
 				}
