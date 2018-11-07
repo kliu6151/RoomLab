@@ -1,8 +1,11 @@
 package Game;
 
 import People.Person;
+import Rooms.ItemRoom;
 import Rooms.Room;
+import Rooms.TrapRoom;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Runner {
@@ -15,9 +18,7 @@ public class Runner {
 		System.out.println("I'll be here to help and guide you. Dw bout who I am");
 		Scanner in = new Scanner(System.in);
 		Board layout = new Board(10,10);
-		Room[][] building = layout.generate();
-		layout.createTemplate();
-
+		Room[][] building = layout.createTemplate();
 		 
 		 //Setup player 1 and the input scanner
 		System.out.println("First thing is first, What's your name?");
@@ -65,6 +66,10 @@ public class Runner {
 			{
 				help();
 			}
+			if(move.toLowerCase().equals("i"))
+			{
+				inventory();
+			}
 
 			
 			
@@ -74,7 +79,14 @@ public class Runner {
 	public static void help()
 	{
 		System.out.println("To move: type w,a,s,d");
-		System.out.println("SYMBOLS\n--------\nYour position: \"!\"\nUnexplored areas: \"?\"\nWalls: \"|\"");
+		System.out.println("Please answer prompts with \"yes\"");
+		System.out.println("SYMBOLS\n--------\nYour position: \"X\"\nExplored areas: \"-\"\nUnexplored areas: \"?\"\nWalls: \"|\"\nRooms: \"R\"\n");
+		System.out.println("Items\n--------\nPotion of Ressurection: Used when you discover a trap room\nTeleport Potion: Use to teleport to a random location on the map");
+	}
+	public static void inventory()
+	{
+		System.out.print("Your inventory\n--------\n");
+		System.out.println(ItemRoom.yourItems());
 	}
 
 	/**
@@ -86,6 +98,7 @@ public class Runner {
 	 */
 	public static boolean validMove(String move, Person p, Room[][] map)
 	{
+		Scanner in = new Scanner(System.in);
 		move = move.toLowerCase().trim();
 		switch (move) {
 			case "w":
@@ -100,10 +113,22 @@ public class Runner {
 					}
 					else if (Board.mapRooms[p.getxLoc() - 1][p.getyLoc()].equals("R"))
 					{
-						System.out.println("Woah what's this");
-						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-						map[p.getxLoc() - 1][p.getyLoc()].enterRoom(p);
-						Board.mapCreate[p.getxLoc()][p.getyLoc()] = "R";
+						System.out.println("You have found a room, would you like to continue?");
+						String prompt = in.nextLine();
+						if(prompt.equals("yes"))
+						{
+							System.out.println("Woah what's this");
+							map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+							map[p.getxLoc() - 1][p.getyLoc()].enterRoom(p);
+							Board.mapCreate[p.getxLoc()][p.getyLoc()] = "R";
+
+						}
+						else
+						{
+							map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+							map[p.getxLoc()][p.getyLoc()].enterRoom(p);
+							Board.mapCreate[p.getxLoc() - 1][p.getyLoc()] = "R";
+						}
 					}
 					else if(Board.mapCreate[p.getxLoc() - 1][p.getyLoc()].equals("?"))
 					{
@@ -141,10 +166,20 @@ public class Runner {
 					}
 					else if(Board.mapRooms[p.getxLoc()][p.getyLoc() - 1].equals("R"))
 					{
-						System.out.println("Woah what's this");
-						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-						map[p.getxLoc()][p.getyLoc() - 1].enterRoom(p);
-						Board.mapCreate[p.getxLoc()][p.getyLoc()] = "R";
+						System.out.println("You have found a room, would you like to continue?");
+						String prompt = in.nextLine();
+						if(prompt.equals("yes")) {
+							System.out.println("Woah what's this");
+							map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+							map[p.getxLoc()][p.getyLoc() - 1].enterRoom(p);
+							Board.mapCreate[p.getxLoc()][p.getyLoc()] = "R";
+						}
+						else
+						{
+							map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+							map[p.getxLoc()][p.getyLoc()].enterRoom(p);
+							Board.mapCreate[p.getxLoc()][p.getyLoc() - 1] = "R";
+						}
 					}
 					else if(Board.mapCreate[p.getxLoc()][p.getyLoc() - 1].equals("?"))
 					{
@@ -183,10 +218,20 @@ public class Runner {
 					}
 					else if (Board.mapRooms[p.getxLoc() + 1][p.getyLoc()].equals("R"))
 					{
-						System.out.println("Woah what's this");
-						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-						map[p.getxLoc() + 1][p.getyLoc()].enterRoom(p);
-						Board.mapCreate[p.getxLoc()][p.getyLoc()] = "R";
+						System.out.println("You have found a room, would you like to continue?");
+						String prompt = in.nextLine();
+						if(prompt.equals("yes")) {
+							System.out.println("Woah what's this");
+							map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+							map[p.getxLoc() + 1][p.getyLoc()].enterRoom(p);
+							Board.mapCreate[p.getxLoc()][p.getyLoc()] = "R";
+						}
+						else
+						{
+							map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+							map[p.getxLoc()][p.getyLoc()].enterRoom(p);
+							Board.mapCreate[p.getxLoc() + 1][p.getyLoc()] = "R";
+						}
 
 					}
 					else if(Board.mapCreate[p.getxLoc() + 1][p.getyLoc()].equals("?"))
@@ -226,10 +271,20 @@ public class Runner {
 					}
 					else if (Board.mapRooms[p.getxLoc()][p.getyLoc() + 1].equals("R"))
 					{
-						System.out.println("Woah what's this");
-						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
-						map[p.getxLoc()][p.getyLoc() + 1].enterRoom(p);
-						Board.mapCreate[p.getxLoc()][p.getyLoc()] = "R";
+						System.out.println("You have found a room, would you like to continue?");
+						String prompt = in.nextLine();
+						if(prompt.equals("yes")) {
+							System.out.println("Woah what's this");
+							map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+							map[p.getxLoc()][p.getyLoc() + 1].enterRoom(p);
+							Board.mapCreate[p.getxLoc()][p.getyLoc()] = "R";
+						}
+						else
+						{
+							map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
+							map[p.getxLoc()][p.getyLoc()].enterRoom(p);
+							Board.mapCreate[p.getxLoc()][p.getyLoc() + 1] = "R";
+						}
 					}
 					else if(Board.mapCreate[p.getxLoc()][p.getyLoc() + 1].equals("?"))
 					{
