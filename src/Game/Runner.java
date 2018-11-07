@@ -3,7 +3,6 @@ package Game;
 import People.Person;
 import Rooms.Room;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Runner {

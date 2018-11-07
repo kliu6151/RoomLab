@@ -22,6 +22,7 @@ public class TrapRoom extends Room
         x.setxLoc(this.xLoc);
         x.setyLoc(this.yLoc);
         System.out.println("Unlucky buddy");
+        Runner.gameOff();
     }
 
 

@@ -14,6 +14,7 @@ public class Board {
     public static String[][] mapCreate;
     public static String[][] mapWalls;
     public static String[][] mapRooms;
+    private static int[][] buildingRooms;
 
 
     public Board(int row, int col)
@@ -45,6 +46,7 @@ public class Board {
         mapCreate = new String[row][col];
         mapWalls = new String[row][col];
         mapRooms = new String[row][col];
+
         for (int i = 0; i < mapCreate.length; i++)
         {
             for (int j = 0; j < mapCreate[i].length; j++)
@@ -75,15 +77,16 @@ public class Board {
                 randomMapWallsX = (int) (Math.random() * 10);
                 randomMapWallsY = (int) (Math.random() * 10);
             }
-                mapWalls[randomMapWallsY][randomMapWallsX] = mapCreate[randomMapWallsY][randomMapWallsX];
-                mapWalls[randomMapWallsY][randomMapWallsX] = "|";
-                mapCreate[randomMapWallsY][randomMapWallsX] = "?";
+                mapWalls[randomMapWallsX][randomMapWallsY] = mapCreate[randomMapWallsY][randomMapWallsX];
+                mapWalls[randomMapWallsX][randomMapWallsY] = "|";
+                mapCreate[randomMapWallsX][randomMapWallsY] = "?";
         }
         /*
         Creates the rooms
          */
         int amountOfRooms = (int)((3 + Math.random()) * 5);
         int amountOfTrapRooms = (int)((1 + Math.random()) * 5);
+        Room[][] trapRooms = new TrapRoom[row][col];
         for (int i = 0; i < mapRooms.length; i++)
         {
             for (int j = 0; j < mapRooms[i].length; j++)
@@ -93,22 +96,27 @@ public class Board {
         }
         for(int n = 0;n<=amountOfRooms;n++)
         {
-            int randomMapRoomsX = (int) (Math.random() * 10);
-            int randomMapRoomsY = (int) (Math.random() * 10);
-            while(randomMapRoomsX == 0 && randomMapRoomsY == 0 || (randomMapRoomsY == 9 && randomMapRoomsX == 8) || (randomMapRoomsY == 8 && randomMapRoomsX == 9))
-            {
-                randomMapRoomsX = (int) (Math.random() * 10);
-                randomMapRoomsY = (int) (Math.random() * 10);
-            }
-            mapRooms[randomMapRoomsY][randomMapRoomsX] = mapCreate[randomMapRoomsY][randomMapRoomsX];
-            mapRooms[randomMapRoomsY][randomMapRoomsX] = "R";
-            for(int t = 0;t<=amountOfTrapRooms;t++)
-            {
-               mapRooms[randomMapRoomsY][randomMapRoomsX] = new TrapRoom(randomMapRoomsY,randomMapRoomsX);
-            }
-
-            mapCreate[randomMapRoomsY][randomMapRoomsX] = "?";
+                int i = 0;
+                int randomMapRoomsX = (int) (Math.random() * 10);
+                int randomMapRoomsY = (int) (Math.random() * 10);
+                while (randomMapRoomsX == 0 && randomMapRoomsY == 0 || (randomMapRoomsY == 9 && randomMapRoomsX == 8) || (randomMapRoomsY == 8 && randomMapRoomsX == 9)) {
+                    randomMapRoomsX = (int) (Math.random() * 10);
+                    randomMapRoomsY = (int) (Math.random() * 10);
+                }
+                mapRooms[randomMapRoomsX][randomMapRoomsY] = mapCreate[randomMapRoomsX][randomMapRoomsY];
+                mapRooms[randomMapRoomsX][randomMapRoomsY] = "R";
+                mapCreate[randomMapRoomsX][randomMapRoomsY] = "?";
+                if(i <= amountOfTrapRooms)
+                {
+                    i++;
+                    trapRooms[randomMapRoomsX][randomMapRoomsY] = new TrapRoom(randomMapRoomsX, randomMapRoomsY);
+                    System.out.println(i);
+                }
         }
+        System.out.println(amountOfTrapRooms);
+        System.out.println(amountOfRooms);
+        System.out.println(Arrays.deepToString(trapRooms));
+        System.out.println(Arrays.deepToString(mapRooms));
 
     }
 }
