@@ -22,25 +22,6 @@ public class Board {
         this.col = col;
     }
 
-    public static Room[][] generate()
-    {
-        Room[][] building = new Room[row][col];
-
-        for(int i = 0; i<building.length;i++)
-        {
-            for(int j = 0; j<building[i].length;j++)
-            {
-                building[i][j] = new Room(i,j);
-            }
-        }
-
-        int x = (int)(Math.random()*building.length);
-        int y = (int)(Math.random()*building.length);
-        building[9][9] = new WinningRoom(x,y);
-        building[0][1] = new ItemRoom(x,y);
-
-        return building;
-    }
     public static Room[][] createTemplate()
     {
         mapCreate = new String[row][col];
@@ -141,7 +122,7 @@ public class Board {
                 mapRooms[randomMapRoomsX][randomMapRoomsY] = "R";
                 mapCreate[randomMapRoomsX][randomMapRoomsY] = "?";
         }
-        System.out.println(Arrays.deepToString(building));
+
         return building;
     }
 }

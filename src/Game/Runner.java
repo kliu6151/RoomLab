@@ -5,8 +5,13 @@ import Rooms.ItemRoom;
 import Rooms.Room;
 import Rooms.TrapRoom;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+
+import static Rooms.ItemRoom.inv;
+import static Rooms.ItemRoom.r;
 
 public class Runner {
 
@@ -85,8 +90,9 @@ public class Runner {
 	}
 	public static void inventory()
 	{
+		ArrayList<String> inv = new ArrayList<String>();
 		System.out.print("Your inventory\n--------\n");
-		System.out.println(ItemRoom.yourItems());
+		System.out.println(inv);
 	}
 
 	/**
