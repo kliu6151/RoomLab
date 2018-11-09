@@ -5,9 +5,6 @@ import Rooms.Room;
 import Rooms.TrapRoom;
 import Rooms.WinningRoom;
 
-import java.util.Arrays;
-
-
 public class Board {
     static int row;
     static int col;

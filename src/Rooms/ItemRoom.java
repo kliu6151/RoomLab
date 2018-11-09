@@ -1,18 +1,16 @@
 package Rooms;
 
-import Game.Runner;
 import People.Person;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ItemRoom extends Room
 {
     public static String[] items;
     public static int r;
-    public static ArrayList<String> inv;
+    public static String inv;
+    public static int enter;
     public ItemRoom(int x, int y) {
         super(x, y);
+        enter = 0;
 
     }
 
@@ -24,14 +22,30 @@ public class ItemRoom extends Room
     @Override
     public void enterRoom(Person x)
     {
-        items = new String[]{"Potion of Resurrection", "Teleport potion"};
-        if(Math.random()>=.5)
-            r = 1;
+        if(enter < 1) {
+            items = new String[]{"Potion of Resurrection", "The best useless potion of all time"};
+            if (Math.random() >= .5)
+                r = 1;
+            else
+                r = 0;
+            occupant = x;
+            x.setxLoc(this.xLoc);
+            x.setyLoc(this.yLoc);
+            System.out.println("You have found a " + items[r]);
+            inv = items[r];
+            if(inv.contains("Potion of Resurrection"))
+            {
+                TrapRoom.potion = true;
+            }
+            enter++;
+        }
         else
-            r = 0;
-        occupant = x;
-        x.setxLoc(this.xLoc);
-        x.setyLoc(this.yLoc);
-        System.out.println("You have found a " + items[r]);
+        {
+            occupant = x;
+            x.setxLoc(this.xLoc);
+            x.setyLoc(this.yLoc);
+            System.out.println("Where'd it go O.o");
+        }
+
     }
 }

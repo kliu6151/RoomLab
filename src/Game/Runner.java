@@ -3,15 +3,9 @@ package Game;
 import People.Person;
 import Rooms.ItemRoom;
 import Rooms.Room;
-import Rooms.TrapRoom;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
-import static Rooms.ItemRoom.inv;
-import static Rooms.ItemRoom.r;
 
 public class Runner {
 
@@ -55,6 +49,7 @@ public class Runner {
 						}
 					}
 				}
+				//Updates the player's current location
 				Board.mapCreate[player1.getxLoc()][player1.getyLoc()] = "X";
 
 				for(String[] row : Board.mapCreate){
@@ -75,24 +70,22 @@ public class Runner {
 			{
 				inventory();
 			}
-
-			
-			
 		}
 		in.close();
 	}
 	public static void help()
 	{
+		System.out.println("Since this game is easy, you will only be allowed to gain one potion in the game");
 		System.out.println("To move: type w,a,s,d");
 		System.out.println("Please answer prompts with \"yes\"");
 		System.out.println("SYMBOLS\n--------\nYour position: \"X\"\nExplored areas: \"-\"\nUnexplored areas: \"?\"\nWalls: \"|\"\nRooms: \"R\"\n");
-		System.out.println("Items\n--------\nPotion of Ressurection: Used when you discover a trap room\nTeleport Potion: Use to teleport to a random location on the map");
+		System.out.println("Items\n--------\nPotion of Ressurection: Used when you discover a trap room\nThe best useless potion of all time: Exactly as the name implies");
 	}
+	//Prints out the potion you have
 	public static void inventory()
 	{
-		ArrayList<String> inv = new ArrayList<String>();
 		System.out.print("Your inventory\n--------\n");
-		System.out.println(inv);
+		System.out.println(ItemRoom.inv);
 	}
 
 	/**
@@ -110,6 +103,7 @@ public class Runner {
 			case "w":
 				if (p.getxLoc() > 0)
 				{
+					//Player hitting a wall
 					if (Board.mapWalls[p.getxLoc() - 1][p.getyLoc()].equals("|"))
 					{
 						System.out.println("Ouch! that must've hurt");
@@ -117,6 +111,7 @@ public class Runner {
 						map[p.getxLoc()][p.getyLoc()].enterRoom(p);
 						Board.mapCreate[p.getxLoc() - 1][p.getyLoc()] = "|";
 					}
+					//Player entering a room
 					else if (Board.mapRooms[p.getxLoc() - 1][p.getyLoc()].equals("R"))
 					{
 						System.out.println("You have found a room, would you like to continue?");
@@ -136,6 +131,7 @@ public class Runner {
 							Board.mapCreate[p.getxLoc() - 1][p.getyLoc()] = "R";
 						}
 					}
+					//Player simple movement through the unknown
 					else if(Board.mapCreate[p.getxLoc() - 1][p.getyLoc()].equals("?"))
 					{
 						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
@@ -145,6 +141,7 @@ public class Runner {
 							Board.mapCreate[p.getxLoc() + 1][p.getyLoc()] = "R";
 						}
 					}
+					//explored room space movement
 					else if(Board.mapCreate[p.getxLoc() - 1][p.getyLoc()].equals("-"))
 					{
 						map[p.getxLoc()][p.getyLoc()].leaveRoom(p);
