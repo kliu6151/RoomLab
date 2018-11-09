@@ -6,6 +6,9 @@ import Rooms.Room;
 
 import java.util.Scanner;
 
+import static Rooms.ItemRoom.inv;
+import static Rooms.ItemRoom.invEmpty;
+
 
 public class Runner {
 
@@ -70,6 +73,10 @@ public class Runner {
 			{
 				inventory();
 			}
+			if(move.toLowerCase().equals("use"))
+			{
+				useItem(player1,building);
+			}
 		}
 		in.close();
 	}
@@ -79,14 +86,41 @@ public class Runner {
 		System.out.println("To move: type w,a,s,d");
 		System.out.println("Please answer prompts with \"yes\"");
 		System.out.println("SYMBOLS\n--------\nYour position: \"X\"\nExplored areas: \"-\"\nUnexplored areas: \"?\"\nWalls: \"|\"\nRooms: \"R\"\n");
-		System.out.println("Items\n--------\nPotion of Ressurection: Used when you discover a trap room\nThe best useless potion of all time: Exactly as the name implies");
+		System.out.println("Items\n--------\nPotion of Ressurection: Used when you discover a trap room\nTeleport Potion: Teleports the players to a random location");
 	}
 	//Prints out the potion you have
 	public static void inventory()
 	{
 		System.out.print("Your inventory\n--------\n");
-		System.out.println(ItemRoom.inv);
+		System.out.println(inv);
 	}
+	public static void useItem(Person p, Room[][] building)
+	{
+		if (invEmpty = false)
+		{
+			if (inv.equals("Potion of Ressurection"))
+			{
+				System.out.println("This'll be automatically used when you die");
+			}
+			else if (inv.equals("Teleport Potion"))
+				{
+					System.out.println("works");
+				int rx = (int) (Math.random() * 10);
+				int ry = (int) (Math.random() * 10);
+				while ((!Board.mapWalls.equals("|")) || (!Board.mapRooms.equals("R")))
+				{
+					rx = (int) (Math.random() * 10);
+					ry = (int) (Math.random() * 10);
+				}
+				p.setxLoc(rx);
+				p.setyLoc(ry);
+				building[rx][ry].enterRoom(p);
+				invEmpty = true;
+				inv = "empty";
+			}
+		}
+	}
+
 
 	/**
 	 * Checks that the movement chosen is within the valid game map.
@@ -324,7 +358,5 @@ public class Runner {
 	{
 		gameOn = false;
 	}
-	
-
 
 }

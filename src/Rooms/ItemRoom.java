@@ -1,5 +1,6 @@
 package Rooms;
 
+import Game.Runner;
 import People.Person;
 
 public class ItemRoom extends Room
@@ -8,10 +9,11 @@ public class ItemRoom extends Room
     public static int r;
     public static String inv;
     public static int enter;
+    public static boolean invEmpty;
     public ItemRoom(int x, int y) {
         super(x, y);
         enter = 0;
-
+        invEmpty = false;
     }
 
     /**
@@ -19,11 +21,11 @@ public class ItemRoom extends Room
      * @param x the Person entering
      */
 
-    @Override
     public void enterRoom(Person x)
     {
         if(enter < 1) {
-            items = new String[]{"Potion of Resurrection", "The best useless potion of all time"};
+            invEmpty = false;
+            items = new String[]{"Potion of Resurrection", "Teleport Potion"};
             if (Math.random() >= .5)
                 r = 1;
             else
