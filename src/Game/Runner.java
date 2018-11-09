@@ -96,18 +96,17 @@ public class Runner {
 	}
 	public static void useItem(Person p, Room[][] building)
 	{
-		if (invEmpty = false)
+		if (invEmpty == false)
 		{
-			if (inv.equals("Potion of Ressurection"))
+			if (inv.equals("Potion of Resurrection"))
 			{
 				System.out.println("This'll be automatically used when you die");
 			}
 			else if (inv.equals("Teleport Potion"))
 				{
-					System.out.println("works");
 				int rx = (int) (Math.random() * 10);
 				int ry = (int) (Math.random() * 10);
-				while ((!Board.mapWalls.equals("|")) || (!Board.mapRooms.equals("R")))
+				while ((Board.mapWalls.equals("|")) || (Board.mapRooms.equals("R")))
 				{
 					rx = (int) (Math.random() * 10);
 					ry = (int) (Math.random() * 10);
